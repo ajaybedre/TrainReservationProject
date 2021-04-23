@@ -50,7 +50,7 @@ const Register = () => {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       mode: 'cors', // no-cors, *cors, same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
+      credentials: 'include', // include, *same-origin, omit
       headers: {
         'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
       },
@@ -61,7 +61,7 @@ const Register = () => {
     const finalResponse=await response.json();
     if(finalResponse.token){
       localStorage.setItem('adminToken',finalResponse.token);
-      window.location.href='./admin'
+      window.location.href='./admin-login'
     }
     // const successMessage=finalResponse.successMessage;
     const errorMessage=finalResponse.errorMessage;
@@ -202,6 +202,7 @@ const Register = () => {
         <Form size='large' onSubmit={handleRegisterSubmit}>
           <Segment stacked>
           <Form.Input
+            required
             fluid
             onChange={inputEvent}
             value={inputElement.firstName}
@@ -210,6 +211,7 @@ const Register = () => {
             // id='form-input-first-name'
           />
           <Form.Input
+            required
             fluid
             onChange={inputEvent}
             value={inputElement.middleName}
@@ -217,6 +219,7 @@ const Register = () => {
             name='middleName'
           />
           <Form.Input
+            required
             fluid
             onChange={inputEvent}
             value={inputElement.lastName}
@@ -224,8 +227,10 @@ const Register = () => {
             name='lastName'
           />
           <Form.Input 
+          required
           onChange={inputEvent}
           fluid 
+          type="email"
           value={inputElement.email}
           icon='user' 
           iconPosition='left' 
@@ -234,6 +239,7 @@ const Register = () => {
           />
           <Form.Input 
               onChange={inputEvent}
+              required
               value={inputElement.password}
               fluid
               icon='lock'
@@ -242,7 +248,8 @@ const Register = () => {
               type='password'
               name='password'
           />
-          <Form.Input 
+          <Form.Input
+              required 
               onChange={inputEvent}
               value={inputElement.confirmPassword}
               fluid
@@ -268,6 +275,8 @@ const Register = () => {
         <Form size='large' onSubmit={handleLoginSubmit}>
           <Segment stacked>
             <Form.Input 
+              type="email"
+              required
               onChange={inputLoginEvent}
               value={inputLoginElement.email}
               fluid icon='user' 
@@ -276,6 +285,7 @@ const Register = () => {
               name='email'
             />
             <Form.Input
+              required
               onChange={inputLoginEvent}
               value={inputLoginElement.password} 
               fluid

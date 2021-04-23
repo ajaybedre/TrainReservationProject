@@ -107,6 +107,7 @@ exports.checkSeatAvailability=async(req,res)=>{
 
 
 exports.calculateFair=async(req,res)=>{
+   // console.log(req.body)
    const trainName=req.body.trainName;
    const trainId=await (await rail.findOne({name:trainName}))._id;
    const sourceStationId=await (await rail.findOne({name:trainName})).from.station;
@@ -128,7 +129,7 @@ exports.calculateFair=async(req,res)=>{
         }
       }
    }else{
-   for(fairs of fairObj.fairToendStation){
+   for(fairs of fairObj.fairToEndStation){
       if(JSON.stringify(fairs.endStation.endStationId)==JSON.stringify(fromStationId)){
          acFairForSource=fairs.endStation.acCoachFair;
          genFairForSource=fairs.endStation.genCoachFair;
@@ -145,7 +146,7 @@ exports.calculateFair=async(req,res)=>{
    acFair=acFairForDestination-acFairForSource;
    genFair=genFairForDestination-genFairForSource;
    sleepFair=sleepFairForDestination-sleepFairForSource;
-   return res.status.json({
+   return res.status(200).json({
       genFair,
       sleepFair,
       acFair

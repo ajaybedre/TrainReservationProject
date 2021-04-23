@@ -107,12 +107,12 @@ ResponsiveContainer.propTypes = {
 const Main = () => (
   <ResponsiveContainer>
   
-    <Segment  style={{ marginLeft:'230px',padding: '6em' }} vertical>
-    <Grid celled='internally' columns='equal' stackable>
+    <Segment  style={{ padding: '6em',width:'100%'}} hprizontal>
+    <Grid  columns='equal' stackable>
     <Grid.Row textAlign='center'>
           <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-          <Card>
-    <Image src='https://previews.123rf.com/images/arhimicrostok/arhimicrostok1708/arhimicrostok170801475/84518113-train-icon-metro-symbol-railway-station-sign-.jpg' wrapped ui={false} />
+          <Card style={{marginLeft:'15em'}}>
+    <Image src='https://upload.wikimedia.org/wikipedia/commons/8/8e/Paddington_Station-4269161-by-Oast-House-Archive.jpg' wrapped ui={false} />
     <Card.Content>
       <Card.Header>Train Data</Card.Header>
       <Card.Meta>
@@ -131,8 +131,8 @@ const Main = () => (
   </Card  >
           </Grid.Column >
           <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em',paddingLeft:'22em' }}>
-          <Card >
-    <Image src='https://st2.depositphotos.com/1052233/11019/v/950/depositphotos_110198136-stock-illustration-round-icon-train-metro-or.jpg' wrapped ui={false} />
+          <Card  tyle={{marginLeft:"10em" }}>
+    <Image src='https://tse4.mm.bing.net/th?id=OIP.ftB0v_GHN1XBE9FeL85S2AHaFC&pid=Api&P=0&w=234&h=160' wrapped ui={false} />
     <Card.Content>
       <Card.Header>Station Data</Card.Header>
       <Card.Description>

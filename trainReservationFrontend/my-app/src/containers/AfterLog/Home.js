@@ -107,7 +107,7 @@ class DesktopContainer extends Component {
                   Home
                 </Menu.Item>
                 <Menu.Item position='right'>
-                  <Button href='/admin' secondary as='a' inverted={!fixed}style={{ marginRight: '3.1em' }}>
+                  <Button href='/admin-login' secondary as='a' inverted={!fixed}style={{ marginRight: '3.1em' }}>
                     Admin LogIn
                   </Button>
                   {/* <Button secondary as='a' inverted={!fixed} primary={fixed} style={{ marginRight: '3em' }}>
@@ -229,7 +229,7 @@ const Main = () => (
        <Card.Content extra>
        <a>
         <Icon name='train' />
-        <Button href='/afterbook'primary>Train Booking</Button>
+        <Button href='/home'primary>Train Booking</Button>
        </a>
       </Card.Content>
       </Card  >

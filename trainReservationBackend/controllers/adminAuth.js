@@ -88,14 +88,14 @@ exports.adminLogin=async(req,res)=>{
         const {email,password}=req.body;
         
         const _admin=await admin.findOne({email:email});
-        //console.log("hey");
+        // console.log("hey");
         if(_admin){
-            //console.log("hey");
+            // console.log("heyy");
             if(_admin.Authenticate(password)){
                var token = await jwt.sign({_id:_admin._id, firstName:_admin.firstName, lastName:_admin.lastName, email:_admin.email,midName:_admin.midName}, process.env.jwtKey,{expiresIn:'365d'});
                if(token){
-                // console.log(token)
-                res.cookie('adminToken', token,{ maxAge: 365*24*36000 } );
+                //  console.log("token")
+                res.cookie('adminToken', token,{httpOnly:true} );
                }
                
                const {_id,email} =_admin;
@@ -115,7 +115,7 @@ exports.adminLogin=async(req,res)=>{
 }
 
 exports.adminLogout=async(req,res)=>{
-    res.clearCookie('adminToken');
+    res.clearCookie("adminToken");
     res.status(200).json({successMessage:'Logged out successfully'})
 }
 

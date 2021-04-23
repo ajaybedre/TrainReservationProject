@@ -13,8 +13,12 @@ exports.userlogin=async (req,res)=>{
         const _user=await user.findOne({email:email})
         if(_user){
             if(_user.Authenticate(password)){
-               var token = jwt.sign({userId:_user._id, firstName:_user.firstName, lastName:_user.lastName, email:_user.email}, process.env.jwtKey,{expiresIn:'365d'});
-               res.cookie('token',token,{ maxAge: 365*24*36000 } );
+               var token =await jwt.sign({userId:_user._id, firstName:_user.firstName, lastName:_user.lastName, email:_user.email}, process.env.jwtKey,{expiresIn:'365d'});
+               if(token){
+                 console.log(token)
+                 res.cookie('token',token,{httpOnly:true} );
+               }
+               
                const {_id,email} =_user;
                return res.status(200).json({token,user:{_id,email}})
     

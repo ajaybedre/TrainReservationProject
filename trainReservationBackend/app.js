@@ -15,7 +15,14 @@ const app=express();
 //       secure:false
 //     })
 //   );
-app.use(cors());
+app.use(cors(
+    {
+      origin: "http://localhost:3000", // allow to server to accept request from different origin
+      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+      credentials: true // allow session cookie from browser to pass through
+    }
+  ));
+// app.use(cors());
 // app.use(session({
 //     secret: 'keyboard cat',
 //     resave: false,
@@ -57,7 +64,7 @@ const updatePasswordRoutes=require('./routes/updatePassword')
 //userWorkFiles
 const searchTrains=require('./routes/searchTrain');
 const trainTicket=require('./routes/ticket');
-const ticketHistory=require('./routes/userHistory')
+const ticketHistory=require('./routes/userHistory');
 
 //adminAuthFiles
 const adminAuthRoutes=require('./routes/adminAuth');

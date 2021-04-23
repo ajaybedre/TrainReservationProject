@@ -13,17 +13,17 @@ exports.getAllTickets=async(req,res)=>{
             var deptDate=null;
             var arrDate=null;
             var status="Cancelled";
-            await rail.findById({_id:ticket.trainInfo}).then((res)=>{
+            await rail.findById({_id:ticket.trainInfo}).then(async (res)=>{
                 if(JSON.stringify(res.from.station)==JSON.stringify(ticket.from)){
-                    deptDate=res.from.deptDate;
+                    deptDate=await res.from.deptDate;
                 }
                 if(JSON.stringify(res.to.station)==JSON.stringify(ticket.to)){
-                    arrDate=res.to.arrDate;
+                    arrDate=await res.to.arrDate;
                 }
                 if(!deptDate){
                     for(station of res.midStations){
                         if(JSON.stringify(station.stationId)==JSON.stringify(ticket.from)){
-                            deptDate=station.deptDate;
+                            deptDate=await station.deptDate;
                             break;
                         }
                     }
@@ -31,16 +31,20 @@ exports.getAllTickets=async(req,res)=>{
                 if(!arrDate){
                     for(station of res.midStations){
                         if(JSON.stringify(station.stationId)==JSON.stringify(ticket.to)){
-                            arrDate=station.arrDate;
+                            arrDate=await station.arrDate;
                             break;
                         }
                     }
                 }
                 
                 if(ticket.ticketStatus=="Active"){
-                    if(arrDate>Date.now()){
+                    // console.log(arrDate)
+                    // console.log(new Date())
+                    if(arrDate<new Date()){
+                        // console.log('hello')
                         status="Journey Ended"
                     }else{
+                        // console.log('hey')
                         status="Active"
                     }
                 }
@@ -64,7 +68,7 @@ exports.getAllTickets=async(req,res)=>{
             })
 
         }
-        console.log(tickets);
+        //console.log(tickets);
         return res.status(200).json({allTickets:tickets});
     }else{
         return res.status(400).json({errorMessage:"Please login to your account first!"})
@@ -187,8 +191,11 @@ exports.getCancelledTickets=async(req,res)=>{
             })
 
         }
-        console.log(tickets);
-        return res.status(200).json({allTickets:tickets});
+        // console.log(tickets);
+        if(allTickets.length>0){
+            return res.status(200).json({allTickets:tickets});
+        }
+        return res.status(200).json({successMessage:"You don,t have any cancelled ticket"})
     }else{
         return res.status(400).json({errorMessage:"Please login to your account first!"})
     }

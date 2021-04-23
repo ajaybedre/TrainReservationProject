@@ -18,25 +18,29 @@ import traindata from './containers/AfterLog/Admin/traindata.js'
 import stationdata from './containers/AfterLog/Admin/stationdata'
 import AfterBook from './containers/AfterLog/Page/AfterBook'
 import ChangePassword from './containers/AfterLog/Admin/ChangePassword'
+import History from './containers/AfterLog/Page/History'
 
 export class App extends Component {
   render() {
     return (
    <div>
      <Switch>
+       <Route exact path='/home' component={AfterBook}/>
+       <Route exact path='/main' component={Main}/>
        <Route exact path='/' component={Home}/>
-       <Route exact path='/home' component={Home}/>
        <Route exact path='/register' component={Register}/>
        <Route exact path='/change-password' component={ChangePassword}/>
        <Route exact path='/login' component={Login}/>
        <Route exact path='/trainbook' component={TrainBook}/>
        <Route exact path='/forgot-password' component={ForgotPass}/>
-       <Route exact path='/main' component={Main}/>
-       <Route exact path='/admin' component={adminlogin}/>
+      
+       <Route exact path='/admin-login' component={adminlogin}/>
        <Route exact path='/traindata' component={traindata}/>
        <Route exact path='/stationdata' component={stationdata}/>
-       <Route exact path='/afterBook' component={AfterBook}/>
-
+       <Route exact path='/home' component={AfterBook}/>
+       <Route exact path='/user/history' component={History}/>
+       {/* <Route exact path='/user/history/cancelled' component={History}/>
+       <Route exact path='/user/history/active' component={History}/> */}
      </Switch>
    </div>
     );

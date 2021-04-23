@@ -3,12 +3,12 @@ const {genCoach,acCoach,sleepCoach}=require('../models/seatArrangement');
 const station=require('../models/stationInfo');
 const jwt=require('jsonwebtoken');
 const {DateTime}=require('luxon');
-
+const fair =require('../models/fair')
 
 exports.addRail=async (req,res)=>{
     try{
     //adding train
-
+    console.log(req.body)
     var sblocks=[];
     var ablocks=[];
     var gblocks=[];
@@ -16,13 +16,13 @@ exports.addRail=async (req,res)=>{
     var aseats=[];
     var gseats=[];
     var midStations=[];
-    var priceArray=[];
+    // var priceArray=[];
     var newPriceArray=[];
     const adminToken=req.cookies.adminToken;
-
+    //console.log(adminToken)
     if(adminToken){
         const admin=jwt.verify(adminToken,process.env.jwtKey);
-        priceArray=req.body.priceArray;
+        // priceArray=req.body.priceArray;
         const fromStation=(await station.findOne({name:req.body.fromStation}))._id;
         const fromStationName=req.body.fromStation;
         const toStation=(await station.findOne({name:req.body.toStation}))._id;
@@ -45,11 +45,11 @@ exports.addRail=async (req,res)=>{
             arrDate:tDate
         }
         
-        const tempMidStations=req.body.midStations;
+        const tempMidStations=await (req.body.midStations).filter((midStation)=>(midStation.endStationName!=toStationName));
         
         for(const midStation of tempMidStations){
-            const stationId=(await station.findOne({name:midStation.name}))._id;
-               const midStationName=midStation.name;
+            const stationId=(await station.findOne({name:midStation.endStationName}))._id;
+               const midStationName=midStation.endStationName;
                const arrTime=midStation.arrTime;
                const arrDate=midStation.arrDate;
                const deptTime=midStation.deptTime;
@@ -80,7 +80,9 @@ exports.addRail=async (req,res)=>{
             return res.status(500).json({errorMessae:"Error in Saving data,Please check again!"})
         }
         //adding fair
-            for(const price of priceArray){
+            for(const price of req.body.midStations){
+                console.log(midStations);
+                console.log(price);
                 var endStationName=price.endStationName;
                 var endStationId=(await station.findOne({name:endStationName}))._id;
                 var genCoachFair=price.genCoachFair;
@@ -132,7 +134,7 @@ exports.addRail=async (req,res)=>{
             sleep.save((err,sleep)=>{
                 if(err){
                     console.log(err);
-                    return res.status(500).json({errorMessae:"Error in Saving data,Please check again!"})
+                    return res.status(500).json({errorMessage:"Error in Saving data,Please check again!"})
                 }
             })
         }
@@ -156,7 +158,7 @@ exports.addRail=async (req,res)=>{
             ac.save((err,ac)=>{
                 if(err){
                     console.log(err);
-                    return res.status(500).json({errorMessae:"Error in Saving data,Please check again!"})
+                    return res.status(500).json({errorMessage:"Error in Saving data,Please check again!"})
                 }
             })
         }
@@ -181,7 +183,7 @@ exports.addRail=async (req,res)=>{
             gen.save((err,gen)=>{
                 if(err){
                     console.log(err);
-                    return res.status(500).json({errorMessae:"Error in Saving data,Please check again!"})
+                    return res.status(500).json({errorMessage:"Error in Saving data,Please check again!"})
                 }
             })
         }
@@ -189,10 +191,10 @@ exports.addRail=async (req,res)=>{
             return res.status(200).json({successMessage:'Data added successfully!'})
         })
         }else{
-            return res.status(400).json({errorMessae:'Please login as admin!'})
+            return res.status(400).json({errorMessage:'Please login as admin!'})
         }
     }catch{
-        res.status(500).json({errorMessae:"Something went wrong,Please try again!"})
+        res.status(500).json({errorMessage:"Something went wrong,Please try again!!"})
     }
     
     

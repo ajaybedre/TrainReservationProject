@@ -1,6 +1,9 @@
-import React,{Component, useState} from 'react'
+
+ 
+
+import React,{Component, useState} from 'react';
 import Navbar from '../NavBar'
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, ButtonGroup } from 'reactstrap';
 import {
   Button,
   Segment,
@@ -13,62 +16,335 @@ import {
 
 const Traindata=()=>{
 
-  const [inputElement,setInputElement]=useState({
+  const [inputFields,setInputFields]=useState({
+    name:'',
+    number:'',
     fromStation:'',
     toStation:'',
     fDeptTime:'',
     fDeptDate:'',
     tArrTime:'',
     tArrDate:'',
-    midStationCount:0,
-    midStationCountArr:[],
-    priceArray:[{
-      id:'',
+    genCoachFair:'',
+    acCoachFair:'',
+    sleepCoachFair:''
+  })
+  const [midStations,setMidStations]=useState([{
+    endStationName:'',
+    arrTime:'',
+    arrDate:'',
+    deptTime:'',
+    deptDate:'',
+    acCoachFair:'',
+    genCoachFair:'',
+    sleepCoachFair:''
+  }])
+
+  const [add,setAdd]=useState({
+    addMidStation:false
+  })
+
+  const [countValues,setCountValues]=useState({
+    genCoachCount:'',
+    sleepCoachCount:'',
+    acCoachCount:''
+  })
+  const handleChangeInput=(event,index)=>{
+    // console.log(event)
+    event.preventDefault();
+    const values=[...midStations];
+    values[index][event.target.name]=event.target.value;
+    // console.log(values)
+    setMidStations(values);
+  }
+  const handleInputEvent=(e)=>{
+    e.preventDefault();
+    const name=e.target.name;
+    const value=e.target.value;
+    if(name==='name'){
+      setInputFields((prevState)=>{
+      return{
+        
+        name:value,
+        number:prevState.number,
+        fromStation:prevState.fromStation,
+        toStation:prevState.toStation,
+        fDeptTime:prevState.fDeptTime,
+        fDeptDate:prevState.fDeptDate,
+        tArrTime:prevState.tArrTime,
+        tArrDate:prevState.tArrDate,
+        genCoachFair:prevState.genCoachFair,
+        acCoachFair:prevState.acCoachFair,
+        sleepCoachFair:prevState.sleepCoachFair
+        
+      }})
+    }
+    if(name==='number'){
+      setInputFields((prevState)=>{
+      return{
+        
+        name:prevState.name,
+        number:value,
+        fromStation:prevState.fromStation,
+        toStation:prevState.toStation,
+        fDeptTime:prevState.fDeptTime,
+        fDeptDate:prevState.fDeptDate,
+        tArrTime:prevState.tArrTime,
+        tArrDate:prevState.tArrDate,
+        genCoachFair:prevState.genCoachFair,
+        acCoachFair:prevState.acCoachFair,
+        sleepCoachFair:prevState.sleepCoachFair
+        
+      }})
+    }
+    if(name==='fromStation'){
+      setInputFields((prevState)=>{
+      return{
+        
+        name:prevState.name,
+        number:prevState.number,
+        fromStation:value,
+        toStation:prevState.toStation,
+        fDeptTime:prevState.fDeptTime,
+        fDeptDate:prevState.fDeptDate,
+        tArrTime:prevState.tArrTime,
+        tArrDate:prevState.tArrDate,
+        genCoachFair:prevState.genCoachFair,
+        acCoachFair:prevState.acCoachFair,
+        sleepCoachFair:prevState.sleepCoachFair
+        
+      }})
+    }
+    if(name==='toStation'){
+      setInputFields((prevState)=>{
+      return{
+        
+        name:prevState.name,
+        number:prevState.number,
+        fromStation:prevState.fromStation,
+        toStation:value,
+        fDeptTime:prevState.fDeptTime,
+        fDeptDate:prevState.fDeptDate,
+        tArrTime:prevState.tArrTime,
+        tArrDate:prevState.tArrDate,
+        genCoachFair:prevState.genCoachFair,
+        acCoachFair:prevState.acCoachFair,
+        sleepCoachFair:prevState.sleepCoachFair
+        
+      }})
+    }
+    if(name==='fDeptTime'){
+      setInputFields((prevState)=>{
+      return{
+        
+        name:prevState.name,
+        number:prevState.number,
+        fromStation:prevState.fromStation,
+        toStation:prevState.toStation,
+        fDeptTime:value,
+        fDeptDate:prevState.fDeptDate,
+        tArrTime:prevState.tArrTime,
+        tArrDate:prevState.tArrDate,
+        genCoachFair:prevState.genCoachFair,
+        acCoachFair:prevState.acCoachFair,
+        sleepCoachFair:prevState.sleepCoachFair
+        
+      }})
+    }
+    if(name==='fDeptDate'){
+      setInputFields((prevState)=>{
+      return{
+        
+        name:prevState.name,
+        number:prevState.number,
+        fromStation:prevState.fromStation,
+        toStation:prevState.toStation,
+        fDeptTime:prevState.fDeptTime,
+        fDeptDate:value,
+        tArrTime:prevState.tArrTime,
+        tArrDate:prevState.tArrDate,
+        genCoachFair:prevState.genCoachFair,
+        acCoachFair:prevState.acCoachFair,
+        sleepCoachFair:prevState.sleepCoachFair
+        
+      }})
+    }
+    if(name==='tArrTime'){
+      setInputFields((prevState)=>{
+      return{
+        
+        name:prevState.name,
+        number:prevState.number,
+        fromStation:prevState.fromStation,
+        toStation:prevState.toStation,
+        fDeptTime:prevState.fDeptTime,
+        fDeptDate:prevState.fDeptDate,
+        tArrTime:value,
+        tArrDate:prevState.tArrDate,
+        genCoachFair:prevState.genCoachFair,
+        acCoachFair:prevState.acCoachFair,
+        sleepCoachFair:prevState.sleepCoachFair
+        
+      }})
+    }
+    if(name==='tArrDate'){
+      setInputFields((prevState)=>{
+      return{
+        
+        name:prevState.name,
+        number:prevState.number,
+        fromStation:prevState.fromStation,
+        toStation:prevState.toStation,
+        fDeptTime:prevState.fDeptTime,
+        fDeptDate:prevState.fDeptDate,
+        tArrTime:prevState.tArrTime,
+        tArrDate:value,
+        genCoachFair:prevState.genCoachFair,
+        acCoachFair:prevState.acCoachFair,
+        sleepCoachFair:prevState.sleepCoachFair
+        
+      }})
+    }
+    if(name==='genCoachFair'){
+      setInputFields((prevState)=>{
+      return{
+        
+        name:prevState.name,
+        number:prevState.number,
+        fromStation:prevState.fromStation,
+        toStation:prevState.toStation,
+        fDeptTime:prevState.fDeptTime,
+        fDeptDate:prevState.fDeptDate,
+        tArrTime:prevState.tArrTime,
+        tArrDate:prevState.tArrDate,
+        genCoachFair:value,
+        acCoachFair:prevState.acCoachFair,
+        sleepCoachFair:prevState.sleepCoachFair
+        
+      }})
+    }
+    if(name==='sleepCoachFair'){
+      setInputFields((prevState)=>{
+      return{
+        
+        name:prevState.name,
+        number:prevState.number,
+        fromStation:prevState.fromStation,
+        toStation:prevState.toStation,
+        fDeptTime:prevState.fDeptTime,
+        fDeptDate:prevState.fDeptDate,
+        tArrTime:prevState.tArrTime,
+        tArrDate:prevState.tArrDate,
+        genCoachFair:prevState.genCoachFair,
+        acCoachFair:prevState.acCoachFair,
+        sleepCoachFair:value
+        
+      }})
+    }
+    if(name==='acCoachFair'){
+      setInputFields((prevState)=>{
+      return{
+        
+        name:prevState.name,
+        number:prevState.number,
+        fromStation:prevState.fromStation,
+        toStation:prevState.toStation,
+        fDeptTime:prevState.fDeptTime,
+        fDeptDate:prevState.fDeptDate,
+        tArrTime:prevState.tArrTime,
+        tArrDate:prevState.tArrDate,
+        genCoachFair:prevState.genCoachFair,
+        acCoachFair:value,
+        sleepCoachFair:prevState.sleepCoachFair
+        
+      }})
+    }
+  }
+  const handleAddMore=(e)=>{
+    e.preventDefault();
+    // console.log(midStations)
+    setMidStations([...midStations,{
       endStationName:'',
-      genCoachFair:'',
-      acCoachFair:'',
-      sleepCoachFair:''
-    }],
-    midStations:[{
-      id:'',
-      name:'',
       arrTime:'',
       arrDate:'',
       deptTime:'',
-      deptDate:''
-    }],
-    trainName:'',
-    trainNumber:'',
+      deptDate:'',
+      acCoachFair:'',
+      genCoachFair:'',
+      sleepCoachFair:''
+    }])
+  }
+  const handleRemove=(index)=>{
+    const values=[...midStations];
+    values.splice(index, 1);
+    setMidStations(values);
 
-  })
-
-  const handleSubmit=async(event)=>{
-    event.preventDefault();
-    console.log(inputElement)
-    const genCoachCount=document.getElementsByName('genCoachCount').value;
-    const acCoachCount=document.getElementsByName('acCoachCount').value;
-    const sleepCoachCount=document.getElementsByName('sleepCoachCount').value;
+  }
+  const handleAddMidStations=(e)=>{
+    e.preventDefault();
+    if(add.addMidStation===false){
+      setAdd({
+        addMidStation:true
+      })
+    }
+    else{
+      setAdd({
+        addMidStation:false
+      })
+    }
+    if(midStations.length===0){
+      setMidStations([{
+        endStationName:'',
+        arrTime:'',
+        arrDate:'',
+        deptTime:'',
+        deptDate:'',
+        acCoachFair:'',
+        genCoachFair:'',
+        sleepCoachFair:''
+      }])
+    }
+  }
+  const handleSubmit=async (e)=>{
+    e.preventDefault();
+    // const genCoachCount=document.getElementsByName("genCoachCount").value;
+    // const sleepCoachCount=document.getElementsByName("sleepCoachCount").value;
+    // const acCoachCount=document.getElementsByName("acCoachCount").value;
+    const finalMidStations=[...midStations,{
+      endStationName:inputFields.toStation,
+      acCoachFair:inputFields.acCoachFair,
+      genCoachFair:inputFields.genCoachFair,
+      sleepCoachFair:inputFields.sleepCoachFair,
+      arrTime:inputFields.tArrTime,
+      arrDate:inputFields.tArrDate,
+      deptTime:inputFields.tArrTime,
+      deptDate:inputFields.tArrDate
+    }]
     const data={
-      fromStatio:inputElement.fromStation,
-      toStation:inputElement.toStation,
-      fDeptTime:inputElement.fDeptTime,
-      fDeptDate:inputElement.fDeptDate,
-      tArrDate:inputElement.tArrDate,
-      tArrTime:inputElement.tArrTime,
-      priceArray:inputElement.priceArray,
-      midStations:inputElement.midStations,
-      name:inputElement.trainName,
-      number:inputElement.trainNumber,
-      genCoachCount,
-      sleepCoachCount,
-      acCoachCount
+     
+      name:inputFields.name,
+      number:inputFields.number,
+      fromStation:inputFields.fromStation,
+      toStation:inputFields.toStation,
+      fDeptTime:inputFields.fDeptTime,
+      fDeptDate:inputFields.fDeptDate,
+      tArrTime:inputFields.tArrTime,
+      tArrDate:inputFields.tArrDate,
+      genCoachFair:inputFields.genCoachFair,
+      acCoachFair:inputFields.acCoachFair,
+      sleepCoachFair:inputFields.sleepCoachFair,
+      midStations:finalMidStations,
+      genCoachCount:countValues.genCoachCount,
+      acCoachCount:countValues.acCoachCount,
+      sleepCoachCount:countValues.sleepCoachCount
+
     }
     console.log(data)
     const response=await fetch('http://localhost:8000/admin/addRail', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       mode: 'cors', // no-cors, *cors, same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
+      credentials: 'include', // include, *same-origin, omit
       headers: {
         'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
       },
@@ -84,571 +360,156 @@ const Traindata=()=>{
     }else if(errorMessage){
       alert(errorMessage);
     }
+    // console.log(data);
   }
-  const inputEvent=(event)=>{
-    var _id=null;
-    if(event.target.id){
-      _id=event.target.id;
+  const handleSelect=(e)=>{
+    const name=e.target.name;
+    const value=e.target.value;
+    if(name==='genCoachCount'){
+      setCountValues((prevState)=>{
+        return{
+          genCoachCount:value,
+          sleepCoachCount:prevState.sleepCoachCount,
+          acCoachCount:prevState.acCoachCount
+        }
+      })
     }
-    const name=event.target.name;
-    const value=event.target.value;
-    console.log(name)
-    console.log(value)
-    setInputElement((prevState)=>{
-      if(name=='deptGenCoachFair'||name=='deptSleepCoachFair'||name=='deptAcCoachFair'){
-        const priceArrayCompulsory=(prevState.priceArray).filter((price)=>(price.endStationName != inputElement.toStation));
-        var priceArrayFiltered=(prevState.priceArray).filter((price)=>(price.endStationName == inputElement.toStation));
-        var obj;
-        if(priceArrayFiltered.length>0){
-          if(name=='deptGenCoachFair'){
-            obj={
-              genCoachFair:value,
-              acCoachFair:priceArrayFiltered.acCoachFair,
-              sleepCoachFair:priceArrayFiltered.sleepCoachFair,
-              endStationName:priceArrayFiltered.endStationName
-            };
-          }
-          if(name=='deptSleepCoachFair'){
-            obj={
-              genCoachFair:priceArrayFiltered.sleepCoachFair,
-              acCoachFair:priceArrayFiltered.acCoachFair,
-              sleepCoachFair:value,
-              endStationName:priceArrayFiltered.endStationName
-            };
-          }
-          if(name=='deptAcCoachFair'){
-            obj={
-              genCoachFair:priceArrayFiltered.genCoachFair,
-              acCoachFair:value,
-              sleepCoachFair:priceArrayFiltered.sleepCoachFair,
-              endStationName:priceArrayFiltered.endStationName
-            };
-          }
-          console.log("h")
-          console.log(priceArrayFiltered);
-          console.log(obj)
-          return{
-            trainName:prevState.trainName,
-            trainNumber:prevState.trainNumber,
-            fromStation:prevState.fromStation,
-            toStation:prevState.toStation,
-            fDeptTime:prevState.fDeptTime,
-            fDeptDate:prevState.fDeptDate,
-            tArrTime:prevState.tArrTime,
-            tArrDate:prevState.tArrDate,
-            midStationCount:prevState.midStationCount,
-            midStationCountArr:prevState.midStationCountArr,
-            priceArray:[...priceArrayCompulsory,obj],
-            midStations:prevState.midStations
-          }
-        }else{
-          if(name=='deptGenCoachFair'){
-            priceArrayFiltered={
-              endStationName:inputElement.toStation,
-              genCoachFair:value,
-              acCoachFair:'',
-              sleepCoachFair:'',
-              id:0
-            }
-          }
-          if(name=='deptSleepCoachFair'){
-            priceArrayFiltered={
-              endStationName:inputElement.toStation,
-              genCoachFair:'',
-              acCoachFair:'',
-              sleepCoachFair:value,
-              id:0
-            }
-          }
-          if(name=='deptAcCoachFair'){
-            priceArrayFiltered={
-              endStationName:inputElement.toStation,
-              genCoachFair:'',
-              acCoachFair:value,
-              sleepCoachFair:'',
-              id:0
-            }
-          }
-          return{
-            trainName:prevState.trainName,
-            trainNumber:prevState.trainNumber,
-            fromStation:prevState.fromStation,
-            toStation:prevState.toStation,
-            fDeptTime:prevState.fDeptTime,
-            fDeptDate:prevState.fDeptDate,
-            tArrTime:prevState.tArrTime,
-            tArrDate:prevState.tArrDate,
-            midStationCount:prevState.midStationCount,
-            midStationCountArr:prevState.midStationCountArr,
-            priceArray:[...priceArrayCompulsory,priceArrayFiltered],
-            midStations:prevState.midStations
-          }
-        }
-      }
-      if(_id){
-        if(name=='name'){
-          const midStationFiltered=(prevState.midStations).filter((midStation)=>midStation.id != _id);
-          const priceFiltered=(prevState.priceArray).filter((price)=>price.id != _id);
-          var midStationObj=(prevState.midStations).filter((midStation)=>midStation.id == _id);
-          var priceObj=(prevState.priceArray).filter((price)=>price.id == _id);
-          if((midStationObj.length>0)&&(priceObj.length>0)){
-            midStationObj.name=value;
-            priceObj.name=value;
-            return{
-              trainName:prevState.trainName,
-              trainNumber:prevState.trainNumber,
-              fromStation:prevState.fromStation,
-              toStation:prevState.toStation,
-              fDeptTime:prevState.fDeptTime,
-              fDeptDate:prevState.fDeptDate,
-              tArrTime:prevState.tArrTime,
-              tArrDate:prevState.tArrDate,
-              midStationCount:prevState.midStationCount,
-              midStationCountArr:prevState.midStationCountArr,
-              priceArray:[...priceFiltered,priceObj],
-              midStations:[...midStationFiltered,midStationObj]
-            }
-          }else if((midStationObj.length>0)){
-            midStationObj.name=value;
-            return{
-              trainName:prevState.trainName,
-              trainNumber:prevState.trainNumber,
-              fromStation:prevState.fromStation,
-              toStation:prevState.toStation,
-              fDeptTime:prevState.fDeptTime,
-              fDeptDate:prevState.fDeptDate,
-              tArrTime:prevState.tArrTime,
-              tArrDate:prevState.tArrDate,
-              midStationCount:prevState.midStationCount,
-              midStationCountArr:prevState.midStationCountArr,
-              priceArray:prevState.priceArray,
-              midStations:[...midStationFiltered,midStationObj]
-          }
-        }else{
-          priceObj.name=value;
-            return{
-              trainName:prevState.trainName,
-              trainNumber:prevState.trainNumber,
-              fromStation:prevState.fromStation,
-              toStation:prevState.toStation,
-              fDeptTime:prevState.fDeptTime,
-              fDeptDate:prevState.fDeptDate,
-              tArrTime:prevState.tArrTime,
-              tArrDate:prevState.tArrDate,
-              midStationCount:prevState.midStationCount,
-              midStationCountArr:prevState.midStationCountArr,
-              priceArray:[...priceFiltered,priceObj],
-              midStations:prevState.midStations
-          }
-        }
-        }else if(name=='name'||name=='arrTime'||name=='arrDate'||name=='deptDate'||name=='deptTime'){
-          const filtered=(prevState.midStations).filter((midStation)=>midStation.id != _id);
-          var obj=(prevState.midStations).filter((midStation)=>midStation.id == _id);
-          if(obj.length>0){
-            if(name=='name'){
-              obj.name=value;
-            }
-            if(name=='arrTime'){
-              obj.arrTime=value;
-            }
-            if(name=='arrDate'){
-              obj.arrDate=value;
-            }
-            if(name=='deptDate'){
-              obj.deptDate=value;
-            }
-            if(name=='deptTime'){
-              obj.deptTime=value;
-            }
-            return{
-              trainName:prevState.trainName,
-              trainNumber:prevState.trainNumber,
-              fromStation:prevState.fromStation,
-              toStation:prevState.toStation,
-              fDeptTime:prevState.fDeptTime,
-              fDeptDate:prevState.fDeptDate,
-              tArrTime:prevState.tArrTime,
-              tArrDate:prevState.tArrDate,
-              midStationCount:prevState.midStationCount,
-              midStationCountArr:prevState.midStationCountArr,
-              priceArray:prevState.priceArray,
-              midStations:[...filtered,obj]
-            }  
-          }else{
-            if(name=='name'){
-              obj={
-                name:value,
-                arrTime:'',
-                arrDate:'',
-                deptTime:'',
-                deptdate:'',
-                id:_id
-              }
-            }
-            if(name=='arrTime'){
-              obj={
-                name:'',
-                arrTime:value,
-                arrDate:'',
-                deptTime:'',
-                deptdate:'',
-                id:_id
-              }
-            }
-            if(name=='arrDate'){
-              obj={
-                name:'',
-                arrTime:'',
-                arrDate:value,
-                deptTime:'',
-                deptdate:'',
-                id:_id
-              }
-            }
-            if(name=='deptDate'){
-              obj={
-                name:'',
-                arrTime:'',
-                arrDate:'',
-                deptTime:'',
-                deptdate:value,
-                id:_id
-              }
-            }
-            if(name=='deptTime'){
-              obj={
-                name:'',
-                arrTime:'',
-                arrDate:'',
-                deptTime:value,
-                deptdate:'',
-                id:_id
-              }
-            }
-            return{
-              trainName:prevState.trainName,
-              trainNumber:prevState.trainNumber,
-              fromStation:prevState.fromStation,
-              toStation:prevState.toStation,
-              fDeptTime:prevState.fDeptTime,
-              fDeptDate:prevState.fDeptDate,
-              tArrTime:prevState.tArrTime,
-              tArrDate:prevState.tArrDate,
-              midStationCount:prevState.midStationCount,
-              midStationCountArr:prevState.midStationCountArr,
-              priceArray:prevState.priceArray,
-              midStations:[...filtered,obj]
-            }  
-          }
-          
-        }else if(name=='genCoachFair'||name=='acCoachFair'|| name=='sleepCoachFair'|| name=='name'){
-          const filtered=(prevState.priceArray).filter((price)=>price.id != _id);
-          var obj=(prevState.priceArray).filter((price)=>price.id == _id);
-          if(obj.length>0){
-            if(name=='genCoachFair'){
-              obj.genCoachFair=value;
-            }
-            if(name=='acCoachFair'){
-              obj.acCoachFair=value;
-            }
-            if(name=='sleepCoachFair'){
-              obj.sleepCoachFair=value;
-            }
-            return{
-              trainName:prevState.trainName,
-              trainNumber:prevState.trainNumber,
-              fromStation:prevState.fromStation,
-              toStation:prevState.toStation,
-              fDeptTime:prevState.fDeptTime,
-              fDeptDate:prevState.fDeptDate,
-              tArrTime:prevState.tArrTime,
-              tArrDate:prevState.tArrDate,
-              midStationCount:prevState.midStationCount,
-              midStationCountArr:prevState.midStationCountArr,
-              priceArray:[...filtered,obj],
-              midStations:prevState.midStations
-            }
-          }else{
-            if(name=='genCoachFair'){
-              obj={
-                id:_id,
-                genCoachFair:value,
-                sleepCoachFair:'',
-                acCoachFair:''
-              }
-            }
-            if(name=='acCoachFair'){
-              obj={
-                id:_id,
-                genCoachFair:'',
-                sleepCoachFair:'',
-                acCoachFair:value
-              }
-            }
-            if(name=='sleepCoachFair'){
-              obj={
-                id:_id,
-                genCoachFair:'',
-                sleepCoachFair:value,
-                acCoachFair:''
-              }
-            }
-            return{
-              trainName:prevState.trainName,
-              trainNumber:prevState.trainNumber,
-              fromStation:prevState.fromStation,
-              toStation:prevState.toStation,
-              fDeptTime:prevState.fDeptTime,
-              fDeptDate:prevState.fDeptDate,
-              tArrTime:prevState.tArrTime,
-              tArrDate:prevState.tArrDate,
-              midStationCount:prevState.midStationCount,
-              midStationCountArr:prevState.midStationCountArr,
-              priceArray:[...filtered,obj],
-              midStations:prevState.midStations
-            }
-          }
-        }
-      }
-      if(name=='trainName'){
+    if(name=='sleepCoachCount'){
+      setCountValues((prevState)=>{
         return{
-          trainName:value,
-          trainNumber:prevState.trainNumber,
-          fromStation:prevState.fromStation,
-          toStation:prevState.toStation,
-          fDeptTime:prevState.fDeptTime,
-          fDeptDate:prevState.fDeptDate,
-          tArrTime:prevState.tArrTime,
-          tArrDate:prevState.tArrDate,
-          midStationCount:prevState.midStationCount,
-          midStationCountArr:prevState.midStationCountArr,
-          priceArray:prevState.priceArray,
-          midStations:prevState.midStations
+          genCoachCount:prevState.genCoachCount,
+          sleepCoachCount:value,
+          acCoachCount:prevState.acCoachCount
         }
-      }
-      if(name=='trainNumber'){
+      })
+    }
+    if(name=='acCoachCount'){
+      setCountValues((prevState)=>{
         return{
-          trainName:prevState.trainName,
-          trainNumber:value,
-          fromStation:prevState.fromStation,
-          toStation:prevState.toStation,
-          fDeptTime:prevState.fDeptTime,
-          fDeptDate:prevState.fDeptDate,
-          tArrTime:prevState.tArrTime,
-          tArrDate:prevState.tArrDate,
-          midStationCount:prevState.midStationCount,
-          midStationCountArr:prevState.midStationCountArr,
-          priceArray:prevState.priceArray,
-          midStations:prevState.midStations
+          genCoachCount:prevState.genCoachCount,
+          sleepCoachCount:prevState.sleepCoachCount,
+          acCoachCount:value
         }
-      }
-      if(name=='sourceStation'){
-        return{
-          trainName:prevState.trainName,
-          trainNumber:prevState.trainNumber,
-          fromStation:value,
-          toStation:prevState.toStation,
-          fDeptTime:prevState.fDeptTime,
-          fDeptDate:prevState.fDeptDate,
-          tArrTime:prevState.tArrTime,
-          tArrDate:prevState.tArrDate,
-          midStationCount:prevState.midStationCount,
-          midStationCountArr:prevState.midStationCountArr,
-          priceArray:prevState.priceArray,
-          midStations:prevState.midStations
-        }
-      }
-      if(name=='destinationStation'){
-        return{
-          trainName:prevState.trainName,
-          trainNumber:prevState.trainNumber,
-          fromStation:prevState.fromStation,
-          toStation:value,
-          fDeptTime:prevState.fDeptTime,
-          fDeptDate:prevState.fDeptDate,
-          tArrTime:prevState.tArrTime,
-          tArrDate:prevState.tArrDate,
-          midStationCount:prevState.midStationCount,
-          midStationCountArr:prevState.midStationCountArr,
-          priceArray:prevState.priceArray,
-          midStations:prevState.midStations
-        }
-      }
-      if(name=='fDeptTime'){
-        return{
-          trainName:prevState.trainName,
-          trainNumber:prevState.trainNumber,
-          fromStation:prevState.fromStation,
-          toStation:prevState.toStation,
-          fDeptTime:value,
-          fDeptDate:prevState.fDeptDate,
-          tArrTime:prevState.tArrTime,
-          tArrDate:prevState.tArrDate,
-          midStationCount:prevState.midStationCount,
-          midStationCountArr:prevState.midStationCountArr,
-          priceArray:prevState.priceArray,
-          midStations:prevState.midStations
-        }
-      }
-      if(name=='fDeptDate'){
-        return{
-          trainName:prevState.trainName,
-          trainNumber:prevState.trainNumber,
-          fromStation:prevState.fromStation,
-          toStation:prevState.toStation,
-          fDeptTime:prevState.fDeptTime,
-          fDeptDate:value,
-          tArrTime:prevState.tArrTime,
-          tArrDate:prevState.tArrDate,
-          midStationCount:prevState.midStationCount,
-          midStationCountArr:prevState.midStationCountArr,
-          priceArray:prevState.priceArray,
-          midStations:prevState.midStations
-        }
-      }
-      if(name=='tArrTime'){
-        return{
-          trainName:prevState.trainName,
-          trainNumber:prevState.trainNumber,
-          fromStation:prevState.fromStatio,
-          toStation:prevState.toStation,
-          fDeptTime:prevState.fDeptTime,
-          fDeptDate:prevState.fDeptDate,
-          tArrTime:value,
-          tArrDate:prevState.tArrDate,
-          midStationCount:prevState.midStationCount,
-          midStationCountArr:prevState.midStationCountArr,
-          priceArray:prevState.priceArray,
-          midStations:prevState.midStations
-        }
-      }
-      if(name=='tArrDate'){
-        return{
-          trainName:prevState.trainName,
-          trainNumber:prevState.trainNumber,
-          fromStation:prevState.fromStatio,
-          toStation:prevState.toStation,
-          fDeptTime:prevState.fDeptTime,
-          fDeptDate:prevState.fDeptDate,
-          tArrTime:prevState.tArrTime,
-          tArrDate:value,
-          midStationCount:prevState.midStationCount,
-          midStationCountArr:prevState.midStationCountArr,
-          priceArray:prevState.priceArray,
-          midStations:prevState.midStations
-        }
-      }
-      if(name=='midStationCount'){
-        var tempArr=[];
-        for(var i=1;i<=value;i++){
-          tempArr.push(i);
-        }
-        return{
-          trainName:prevState.trainName,
-          trainNumber:prevState.trainNumber,
-          fromStation:prevState.fromStatio,
-          toStation:prevState.toStation,
-          fDeptTime:prevState.fDeptTime,
-          fDeptDate:prevState.fDeptDate,
-          tArrTime:prevState.tArrTime,
-          tArrDate:prevState.tArrDate,
-          midStationCount:value,
-          midStationCountArr:tempArr,
-          priceArray:prevState.priceArray,
-          midStations:prevState.midStations
-        }
-      }
-    })
+      })
+    }
   }
-
- 
 
   return (
-    <div style={{height:'100%'}}>
-      <>
-      <Navbar/>
-      </>
-    
-      
-      <Segment inverted style={{marginTop:'1px',marginBottom:'0px',height:'100%'}}>
-      
-      <Form  onSubmit={handleSubmit}>
-      <Input 
-        value={inputElement.trainName}
-        name='trainName'
-        onChange={inputEvent}
-        type="text" 
-        style={{marginLeft:'15%',width:'500px',marginTop:'0.8em',marginBottom:'0.8em'}}
-        inverted 
-        placeholder='Enter Train Name'
-        />
-        <Input 
-        value={inputElement.trainNumber}
-        name='trainNumber'
-        onChange={inputEvent}
-        type="number" 
-        style={{marginLeft:'25px',width:'500px',marginTop:'0.8em',marginBottom:'0.8em'}}
-        inverted 
-        placeholder='Enter Train Number'
-        />
-        <Input 
-        value={inputElement.sourceStation}
-        name='sourceStation'
-        onChange={inputEvent}
-        type="text" 
-        style={{marginLeft:'15%',width:'500px'}}
-        inverted 
-        placeholder='Enter Source Station'
-        />
-        <Input 
-        value={inputElement.destinationStation}
-        name='destinationStation'
-        onChange={inputEvent}
-        type="text" 
-        style={{marginLeft:'25px',width:'500px'}}
-        inverted 
-        placeholder='Enter Destination Station'
-        />
-        <Input 
-        value={inputElement.fDeptDate}
-        name='fDeptDate'
-        onChange={inputEvent}
-        type="date" 
-        style={{marginLeft:'15%',width:'500px',marginTop:"20px"}}
-        inverted
-        />
-        <Input 
-        value={inputElement.tArrDate}
-        name='tArrDate'
-        onChange={inputEvent}
-        type="date" 
-        style={{marginLeft:'25px',width:'500px'}}
-        inverted
-        />
-        <Input 
-        value={inputElement.fDeptTime}
-        name='fDeptTime'
-        onChange={inputEvent}
-        type="time" 
-        style={{marginLeft:'15%',width:'500px',marginTop:"20px"}}
-        inverted
-        />
-        <Input 
-        value={inputElement.tArrTime}
-        name='tArrTime'
-        onChange={inputEvent}
-        type="time" 
-        style={{marginLeft:'25px',width:'500px'}}
-        inverted
-        />
-        
 
-        
-        <Container>
+ <div >
+         <Navbar/>
+    <div  style={{margin:'0px',backgroundImage:`url(${"https://images.unsplash.com/photo-1617653695386-1d78957d33f8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80"})`,height:'1500px',maxWidth:'100%',backgroundSize:'cover',padding:'30px'}} >
+      <Segment inverted style={{marginLeft:'10%',marginRight:'10%',marginTop:'5%',borderRadius:'20px',width:'75%',backgroundColor:''}} >
+      
+      <Form onSubmit={handleSubmit}>
+      <Container>
+      <Row>
+        <Col>
+        <Input 
+          placeholder="Train Name"
+          name='name'
+          onChange={handleInputEvent}
+          value={inputFields.name}
+          type="text" 
+          style={{marginLeft:'47%',marginTop:'2em'}}
+          inverted 
+        />
+        </Col>
+        <Col>
+        <Input 
+          placeholder="Train Number"
+          name='number'
+          onChange={handleInputEvent}
+          value={inputFields.number}
+          type="number" 
+          style={{marginLeft:'12%',marginTop:'2em'}}
+          inverted 
+        />
+        </Col>
+        </Row>
+      </Container>
+      <Container>
+        <Row>
+          <Col>
+            <Input 
+              name='fromStation'
+              value={inputFields.fromStation}
+              placeholder="Source Station"
+              onChange={handleInputEvent}
+              type="text" 
+              style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
+              inverted 
+            />
+          </Col>
+          <Col>
+            <Input 
+              name='fDeptTime'
+              value={inputFields.fDeptTime}
+              placeholder="Departure Time"
+              onChange={handleInputEvent}
+              type="time" 
+              style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
+              inverted 
+            />
+          </Col>
+          <Col>
+            <Input 
+              name='fDeptDate'
+              value={inputFields.fDeptDate}
+              onChange={handleInputEvent}
+              placeholder="Departure Date"
+              type="date" 
+              style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
+              inverted 
+            />
+          </Col>
+        </Row>
+        <Row>
+         <Col>
+            <Input 
+              name='toStation'
+              value={inputFields.toStation}
+              onChange={handleInputEvent}
+              placeholder="Destination Station"
+              type="text" 
+              style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
+              inverted 
+            />
+           </Col>
+           <Col>
+            <Input 
+              name='tArrTime'
+              value={inputFields.tArrTime}
+              onChange={handleInputEvent}
+              placeholder="Arrival Time"
+              type="time" 
+              style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
+              inverted 
+            />
+           </Col>
+           <Col>
+            <Input 
+              placeholder="Arrival Date"
+              name='tArrDate'
+              value={inputFields.tArrDate}
+              onChange={handleInputEvent}
+              type="date" 
+              style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
+              inverted 
+            />
+           </Col>
+        </Row>
+      </Container>
+      <Container>
           <Row>
             <Col>
-            <select name="genCoachCount" className="browser-default custom-select" style={{marginLeft:'7%',alignItems:'center',width:'200px',marginTop:'1%'}}>
-              <option value='0'>No of General Coaches</option>
+            <select 
+            name="genCoachCount" 
+            className="browser-default custom-select" 
+            style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
+            onChange={handleSelect}
+            >
+              <option value='0'>No of Genral Blocks</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -664,182 +525,206 @@ const Traindata=()=>{
             </select>
             </Col>
             <Col>
-            <Input
-              // value={inputElement.midStationCount} 
-              name='deptGenCoachFair'
-              onChange={inputEvent}
-              type="number" 
-              style={{marginLeft:'0%',width:'200px',marginTop:'1%'}}
-              inverted 
-              placeholder='Genral Coach'
-            />
+            <select onChange={handleSelect} name="sleepCoachCount" className="browser-default custom-select"style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}} >
+              <option value='0'>No of Sleeper Blocks</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+            </select>
             </Col>
+            <Col>
+            <select onChange={handleSelect} name="acCoachCount" className="browser-default custom-select" style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}} >
+              <option value='0'>No of Ac Blocks</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+            </select>
+            </Col>
+            
           </Row>
           <Row>
             <Col>
-            <select name="sleepCoachCount" className="browser-default custom-select" style={{marginLeft:'7%',alignItems:'center',width:'200px',marginTop:'1%'}}>
-              <option value='0'>No of Sleep Coaches</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-            </select>
-            </Col>
-            <Col>
             <Input
-              // value={inputElement.midStationCount} 
-              name='deptSleepCoachFair'
-              onChange={inputEvent}
+              style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
+              name='genCoachFair'
+              value={inputFields.genCoachFair}
+              onChange={handleInputEvent}
               type="number" 
-              style={{marginLeft:'0%',width:'200px',marginTop:'1%'}}
               inverted 
-              placeholder='Sleep Coach'
+              placeholder='Genral Coach Fair'
             />
             </Col>
-          </Row>
-          <Row>
             <Col>
-            <select name="acCoachCount" className="browser-default custom-select" style={{marginLeft:'7%',alignItems:'center',width:'200px',marginTop:'1%'}}>
-              <option value='0'>No of Ac Coaches</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-            </select>
+            <Input
+              style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
+              name='sleepCoachFair'
+              onChange={handleInputEvent}
+              value={inputFields.sleepCoachFair}
+              type="number" 
+              inverted 
+              placeholder='Sleep Coach Fair'
+            />
             </Col>
             <Col>
             <Input
-              // value={inputElement.midStationCount} 
-              name='deptAcCoachFair'
-              onChange={inputEvent}
+              style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
+              name='acCoachFair'
+              onChange={handleInputEvent}
+              value={inputFields.acCoachFair}
               type="number" 
-              style={{marginLeft:'0%',width:'200px',marginTop:'1%'}}
-              inverted 
-              placeholder='Ac Coach'
+              inverted
+              placeholder='Ac Coach Fair'
             />
             </Col>
           </Row>
         </Container>
+        <Container>
+
+            <Col style={{width:'100%',marginRight:'0%'}}><Button onClick={handleAddMidStations} primary style={{marginLeft:'79.5%',width:'15%',marginRight:'0%'}}>Add Midstations</Button></Col>
+            {/* <Col style={{width:'1%',marginLeft:'60%'}}><Button primary style={{marginLeft:'5%'}}>Submit</Button></Col> */}
+         
+          
+        </Container>
+        {add.addMidStation && midStations.map((midStation,index)=>(
+          <div key={index}>
+          <Container>
+            <Row>
+              <Col>
+                <Input 
+                  placeholder="Station name"
+                  type="text" 
+                  name='endStationName'
+                  style={{marginLeft:'20%',width:'200px',marginTop:'10px'}}
+                  inverted 
+                  onChange={(event)=>handleChangeInput(event,index)}
+                  value={midStation.endStationName}
+                />
+              </Col>
+              <Col>
+                <Input 
+                  placeholder="Arrival Time"
+                  label="Arrival Time"
+                  type="time" 
+                  name='arrTime'
+                  value={midStation.arrTime}
+                  style={{marginLeft:'16.7%',width:'200px',marginTop:'10px',width:'13.7em'}}
+                  onChange={(event)=>handleChangeInput(event,index)}
+                  inverted 
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+              <Input 
+                  placeholder="Genral Coach Fair"
+                  style={{marginLeft:'20%',width:'200px',marginTop:'10px'}}
+                  type="number" 
+                  name='genCoachFair'
+                  value={midStation.genCoachFair}
+                  onChange={(event)=>handleChangeInput(event,index)}
+                  inverted 
+              />
+              </Col>
+              <Col>
+                <Input 
+                  placeholder="Arrival Date"
+                  type="date" 
+                  label="Arrival Date"
+                  name='arrDate'
+                  value={midStation.arrDate}
+                  style={{marginLeft:'16.7%',width:'200px',marginTop:'10px',width:'13.7em'}}
+                  onChange={(event)=>handleChangeInput(event,index)}
+                  inverted 
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+              <Input 
+                  placeholder="Sleeper Coach Fair"
+                  style={{marginLeft:'20%',width:'200px',marginTop:'10px'}}
+                  type="number" 
+                  name='sleepCoachFair'
+                  value={midStation.sleepCoachFair}
+                  onChange={(event)=>handleChangeInput(event,index)}
+                  inverted 
+              />
+              </Col>
+              <Col>
+                <Input 
+                  placeholder="Departure Time"
+                  type="time" 
+                  label="Departure Time"
+                  name='deptTime'
+                  value={midStation.deptTime}
+                  style={{marginLeft:'16.7%',width:'200px',marginTop:'10px',width:'12em'}}
+                  onChange={(event)=>handleChangeInput(event,index)}
+                  inverted 
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Input 
+                    placeholder="Ac Coach Fair"
+                    style={{marginLeft:'20%',width:'200px',marginTop:'10px'}}
+                    type="number" 
+                    name='acCoachFair'
+                    value={midStation.acCoachFair}
+                    onChange={(event)=>handleChangeInput(event,index)}
+                    inverted 
+                />
+              </Col>
+              <Col>
+                <Input 
+                  placeholder="Departure Date"
+                  label="Departure Date"
+                  name='deptDate'
+                  type="date" 
+                  style={{marginLeft:'16.7%',width:'200px',marginTop:'10px',width:'12em'}}
+                  value={midStation.deptDate}
+                  onChange={(event)=>handleChangeInput(event,index)}
+                  inverted 
+                />
+              </Col>
+            </Row>
+           <ButtonGroup style={{marginLeft:'68.5%',marginTop:'2%'}}>
+             <Button onClick={()=>handleRemove(index)}>Remove</Button>
+             <Button onClick={handleAddMore}>Add More</Button>
+           </ButtonGroup>
+          </Container>
         
+        </div>
         
-        <Input
-        value={inputElement.midStationCount} 
-        name='midStationCount'
-        onChange={inputEvent}
-        type="number" 
-        style={{marginLeft:'15.6%',width:'200px',marginTop:'1%'}}
-        inverted 
-        placeholder='No of Midstations'
-        />
-        {(inputElement.midStationCount>0)&&
-           <Container>
-           <Row>
-             <Col style={{marginLeft:'8%',marginTop:'1%'}}><h5>Station Name</h5></Col>
-             <Col style={{marginLeft:'25px',marginTop:'1%'}}><h5>Arrival Date</h5></Col>
-             <Col style={{marginLeft:'25px',marginTop:'1%'}}><h5>Arrival Time</h5></Col>
-             <Col style={{marginLeft:'25px',marginTop:'1%'}}><h5>Departure Date</h5></Col>
-             <Col style={{marginLeft:'25px',marginTop:'1%'}}><h5>Departure Time</h5></Col>
-           </Row>
-           </Container>
-        }    
-        {(inputElement.midStationCount>0)&&(inputElement.midStationCountArr).map((e)=>{
-           return(
-                  <div key={e} id={e}>
-                 
-                    <Input 
-                     onChange={inputEvent}
-                     id={e} 
-                     type="text" 
-                     style={{marginLeft:'15%',width:'200px',marginTop:'10px'}}
-                     inverted 
-                     placeholder='Midstation Name'
-                     name='name'
-                    />
-                    <Input 
-                     onChange={inputEvent}
-                     id={e} 
-                     type="date" 
-                     style={{marginLeft:'25px',width:'200px',marginTop:"10px"}}
-                     inverted
-                     name='arrDate'
-                    />
-                    <Input 
-                     onChange={inputEvent}
-                     id={e} 
-                     type="time" 
-                     style={{marginLeft:'25px',width:'200px',marginTop:"10px"}}
-                     inverted
-                     name='arrTime'
-                    />
-                    <Input 
-                     onChange={inputEvent}
-                     id={e} 
-                     type="date" 
-                     style={{marginLeft:'25px',width:'200px',marginTop:'10px'}}
-                     inverted
-                     name='deptDate'
-                    />
-                    <Input 
-                     onChange={inputEvent}
-                     id={e} 
-                     type="time" 
-                     style={{marginLeft:'25px',width:'200px',marginTop:'10px'}}
-                     inverted
-                     name='deptTime'
-                    />
-                    <Input 
-                     onChange={inputEvent}
-                     id={e} 
-                     type="number" 
-                     style={{marginLeft:'15%',width:'200px',marginTop:'10px'}}
-                     inverted 
-                     placeholder='General Coach Fair'
-                     name='genCoachFair'
-                    />
-                    <Input 
-                     onChange={inputEvent}
-                     id={e} 
-                     type="number" 
-                     style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
-                     inverted 
-                     placeholder='sleep Coach Fair'
-                     name='sleepCoachFair'
-                    />
-                    <Input 
-                     onChange={inputEvent}
-                     id={e} 
-                     type="number" 
-                     style={{marginLeft:'16.7%',width:'200px',marginTop:'10px'}}
-                     inverted 
-                     placeholder='Ac Coach Fair'
-                     name='acCoachFair'
-                    />
-                  </div>
-            )
-        })}
-        
-        <Button inverted style={{marginLeft:'78%',width:'150px',marginTop:'20px'}}content='Add Train' primary />
+        ))
+      }
+        <Button type='submit'>Add Train</Button>
+       
       </Form>
  
       </Segment>
      
-  
+       
+       
+      </div>  
     </div>
     
   )

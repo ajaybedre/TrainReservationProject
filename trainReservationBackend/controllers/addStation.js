@@ -3,6 +3,7 @@ const station =require('../models/stationInfo');
 const jwt =require('jsonwebtoken');
 
 exports.addStation=async (req,res)=>{
+    console.log(req.body)
     const name=req.body.name;
     const code=req.body.code;
     const adminToken=req.cookies.adminToken;

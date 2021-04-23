@@ -1,7 +1,7 @@
+
 import React,{ Component }  from 'react'
 import {Button, Form, Segment } from 'semantic-ui-react'
 import Navbar from '../NavBar'
-// import Container from 'react-bootstrap/Container'
 import { Container, Row, Col } from 'reactstrap';
 
 
@@ -165,10 +165,12 @@ export default class AfterBook extends Component {
 
 
   BookTicketClicked=(train)=>{
-    if(!this.state.bookTicket){
+    if(this.state.bookTicket==false){
       if(!(this.state.isLoggedIn)){
         alert('Please login to your account!')
       }else{
+        this.SeatAvailabilityClicked(train,false);
+        this.CheckFairClicked(train,false);
         this.setState({
           bookTicket:true,
           bookTicketFor:train
@@ -176,10 +178,10 @@ export default class AfterBook extends Component {
       }
     }else{
       this.setState({
-        bookTicket:false,
-        bookTicketFor:{}
+        bookTicket:false
       })
     }
+      
   }
 
 
@@ -202,7 +204,7 @@ export default class AfterBook extends Component {
    }
 
 
-  CheckFairClicked=async(train)=>{
+  CheckFairClicked=async(train,param=true)=>{
     if(this.state.fair==false){
       const data={
         trainName:train.name,
@@ -227,9 +229,9 @@ export default class AfterBook extends Component {
           acFair:finalResponse.acFair,
           genFair:finalResponse.genFair,
           sleepFair:finalResponse.sleepFair,
-          fair:true,
-          seats:false,
-          moreDetails:false
+          fair:param,
+          // seats:false,
+          // moreDetails:false
         })
       }
     }else{
@@ -241,7 +243,7 @@ export default class AfterBook extends Component {
    }
 
 
-  SeatAvailabilityClicked=async (train)=>{
+  SeatAvailabilityClicked=async (train,param=true)=>{
     if(this.state.seats==false){
       const data={
         trainName:train.name
@@ -264,9 +266,9 @@ export default class AfterBook extends Component {
           acSeats:finalResponse.acSeats,
           genSeats:finalResponse.genSeats,
           sleepSeats:finalResponse.sleepSeats,
-          seats:true,
-          fair:false,
-          moreDetails:false
+          seats:param,
+          // fair:false,
+          // moreDetails:false
         })
   
       }
@@ -280,13 +282,6 @@ export default class AfterBook extends Component {
 
   handleBooking=async(event)=>{
     event.preventDefault();
-    // this.setState({
-    //   seats:false,
-    //   fair:false,
-    //   moreDetails:false
-    // })
-    // this.CheckFairClicked(this.state.bookTicketFor);
-    // this.SeatAvailabilityClicked(this.state.bookTicketFor);
     var gender;
     var coachType;
     document.getElementsByName('gender').forEach((ele)=>{
@@ -332,9 +327,11 @@ export default class AfterBook extends Component {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       mode: 'cors', // no-cors, *cors, same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
+      credentials: 'include', // include, *same-origin, omit
       headers: {
-        'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json', // 'Content-Type': 'application/x-www-form-urlencoded',
+         "Access-Control-Allow-Credentials": true,
+         "Access-Control-Allow-Origin":true
       },
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
@@ -355,7 +352,7 @@ export default class AfterBook extends Component {
       return (
         <div>
         <Navbar/>
-        <header style={{backgroundColor:"teal",height:'300px'}}><h1 style={{padding:'200px',textAlign:'center',fontSize:'xxx-large'}}>Search For Trains</h1></header>
+        <header style={{backgroundImage:`url('https://i.ytimg.com/vi/GN24zFl9xOM/maxresdefault.jpg')`,height:'1000px',backgroundSize:'cover',display: 'block'}}><h1 style={{padding:'100px',textAlign:'center',fontSize:'xxx-large',fontFamily:'ui-rounded',color:'red'}}>Book Train Tickets</h1>
         <Segment  inverted style={{marginLeft:'25%',marginTop:'87px',width:'60%',borderRadius:'20px',height:'100px'}}>
         <Form  onSubmit={this.handleSubmit}>
           <Form.Group widths={4}>
@@ -386,11 +383,13 @@ export default class AfterBook extends Component {
             style={{width:'100%',marginTop:'8%'}} 
             />
   
-            <Button type="submit" style={{width:'20%',marginTop:'2%'}}>Search</Button>
+            <Button  primary type="submit" style={{width:'20%',marginTop:'2%'}}>Search</Button>
   
           </Form.Group>
          </Form>
         </Segment>
+        </header>
+
         </div>
       )
     }
@@ -516,11 +515,13 @@ export default class AfterBook extends Component {
                 onChange={this.changeFirstName}
                 value={this.state.firstName}
                 type="string" 
+                required
                 placeholder='First Name' 
                 name='firstName'
                 style={{width:'100%',marginTop:'8%'}}
               />
               <Form.Input  
+                required
                 onChange={this.changeMiddleName}
                 value={this.state.middleName}
                 type="string" 
@@ -530,6 +531,7 @@ export default class AfterBook extends Component {
               />
               <Form.Input  
                 onChange={this.changeLastName}
+                required
                 value={this.state.lastName}
                 type="string" 
                 placeholder='Last Name' 
@@ -538,6 +540,7 @@ export default class AfterBook extends Component {
               />
               <Form.Input  
                 onChange={this.changeAge}
+                required
                 value={this.state.age}
                 type="number" 
                 placeholder='Age' 
@@ -606,6 +609,4 @@ export default class AfterBook extends Component {
     
   }
 }
-
-
 

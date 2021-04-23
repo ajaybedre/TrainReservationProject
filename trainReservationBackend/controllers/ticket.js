@@ -5,7 +5,9 @@ const jwt=require('jsonwebtoken');
 const {acCoach,genCoach,sleepCoach} =require('../models/seatArrangement');
 
 exports.bookTicket=async(req,res)=>{
-    const userToken=req.cookies.token;
+    try{
+        const userToken=await req.cookies.token;;
+    console.log(userToken)
     if(!userToken){
         return res.status(400).json({errorMessage:"Please Login to Account!"})
     }
@@ -163,6 +165,9 @@ exports.bookTicket=async(req,res)=>{
         }
             
     }
+ }catch{
+     return res.status(400).json({errorMessage:"Something went wrong!"})
+ }
 }
 
 
@@ -185,42 +190,77 @@ exports.bookTicket=async(req,res)=>{
 exports.cancelTicket=async(req,res)=>{
     const blockId=req.body.blockId;
     const seatNo=req.body.seatNo;
-    const trainInfo=req.body.trainInfo;
-    await rail.findOne({trainInfo}).then(async(train)=>{
-        if(train.from.deptDate>Date.now()){
-            return res.status(400).json({message:"Sorry,ticket can not be cancelled once train depatured from Source Station."})
+    const name=req.body.name;
+    // var trainInfo;
+    await rail.findOne({name:name}).then(async(train)=>{
+        //trainInfo=train._id;
+        if(new Date(train.from.deptDate)<Date.now()){
+            return res.status(400).json({errorMessage:"Sorry,ticket can not be cancelled once train depatured from Source Station."})
         }
-    })
+    //
     await ticket.findOneAndUpdate({blockId,seatNo},{
         ticketStatus:"Cancelled"
     })
     if(blockId[0]=="G"){
-        await genCoach.findOne({trainInfo}).then(async(coach)=>{
-            const block=coach.blocks.id(blockId);
-            const seat=block.seats.id(seatNo);
-            seat.bookingStatus=true;
+        await genCoach.findOne({trainInfo:train._id}).then(async(coach)=>{
+            for(block of coach.blocks){
+                for(seat of block.seats){
+                    if(seat.seatNo==seatNo){
+                        seat.bookingStatus=false;
+                        break;
+                    }
+                }
+            }
+            // console.log(coach)
+            // const block=coach.blocks.id(blockId);
+            // // console.log(block)
+            // const seat=block.seats.id(seatNo);
+            // seat.bookingStatus=true;
             coach.save().then(()=>{
                 return res.status(200).json({successMessage:"Ticket Cancelled Successfully"})
             })
         })
     }else if(blockId[0]=="A"){
-        await acCoach.findOne({trainInfo}).then(async(coach)=>{
-            const block=coach.blocks.blockId(blockId);
-            const seat=block.seats.seatNo(seatNo);
-            seat.bookingStatus=true;
+        await acCoach.findOne({trainInfo:train._id}).then(async(coach)=>{
+            for(block of coach.blocks){
+                for(seat of block.seats){
+                    if(seat.seatNo==seatNo){
+                        seat.bookingStatus=false;
+                        break;
+                    }
+                }
+            }
+            // console.log(coach)
+            // const block=coach.blocks.id(blockId);
+            // // console.log(block)
+            // const seat=block.seats.id(seatNo);
+            // seat.bookingStatus=true;
             coach.save().then(()=>{
                 return res.status(200).json({successMessage:"Ticket Cancelled Successfully"})
             })
         })
     }else{
-        await sleepCoach.findOne({trainInfo}).then(async(coach)=>{
-            const block=coach.blocks.blockId(blockId);
-            const seat=block.seats.seatNo(seatNo);
-            seat.bookingStatus=true;
+        await genCoach.findOne({trainInfo:train._id}).then(async(coach)=>{
+            for(block of coach.blocks){
+                for(seat of block.seats){
+                    if(seat.seatNo==seatNo){
+                        seat.bookingStatus=false;
+                        break;
+                    }
+                }
+            }
+            // console.log(coach)
+            // const block=coach.blocks.id(blockId);
+            // // console.log(block)
+            // const seat=block.seats.id(seatNo);
+            // seat.bookingStatus=true;
             coach.save().then(()=>{
                 return res.status(200).json({successMessage:"Ticket Cancelled Successfully"})
             })
         })
     }
-}
+})}
+
+    
+
 
